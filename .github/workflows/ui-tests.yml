@@ -63,11 +63,16 @@ jobs:
         allure_history: allure-history
         keep_reports: 20
 
+    - name: Generate Allure Report
+      if: always()
+      run: ./gradlew allureReport
+
     - name: Publish Report
       if: always()
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: allure-history
+#        PUBLISH_DIR: allure-history
+        PUBLISH_DIR: build/reports/allure-report/allureReport
         force_orphan: true
