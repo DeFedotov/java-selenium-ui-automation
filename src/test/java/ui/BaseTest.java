@@ -46,11 +46,14 @@ public class BaseTest {
         String remoteUrl = System.getenv("SELENIUM_REMOTE_URL");
         if (remoteUrl != null && !remoteUrl.isEmpty()) {
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless=new");
+            options.addArguments("--headless");
             options.addArguments("--window-size=1920,1080");
             options.addArguments("--disable-gpu");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--remote-allow-origins=*");
+            options.addArguments("--disable-software-rasterizer");
+            options.addArguments("--disable-extensions");
             options.addArguments("--use-fake-ui-for-media-stream");
             options.addArguments("--deny-permission-prompts=false");
             options.setCapability("goog:loggingPrefs", Map.of("browser", "ALL"));
