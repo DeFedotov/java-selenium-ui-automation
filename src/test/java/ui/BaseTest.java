@@ -2,7 +2,6 @@ package ui;
 
 import configs.TestPropertiesConfig;
 import extensions.AllureExtension;
-import io.qameta.allure.Allure;
 import io.qameta.allure.Feature;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterEach;
@@ -27,7 +26,6 @@ public class BaseTest {
     @BeforeEach
     public void setUp() {
         initDriver();
-//        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
@@ -43,17 +41,22 @@ public class BaseTest {
     }
 
     private void initDriver() {
+        // 1. Сначала проверяем переменную окружения
         String remoteUrl = System.getenv("SELENIUM_REMOTE_URL");
+
+        // 2. Если пустая, проверяем системное свойство Java (-DSELENIUM_REMOTE_URL=...)
+        if (remoteUrl == null || remoteUrl.isEmpty()) {
+            remoteUrl = System.getProperty("SELENIUM_REMOTE_URL");
+        }
+
         if (remoteUrl != null && !remoteUrl.isEmpty()) {
+            // Удаленный запуск (Jenkins + Selenium Grid)
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
+            options.addArguments("--headless=new");
             options.addArguments("--window-size=1920,1080");
             options.addArguments("--disable-gpu");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
-            options.addArguments("--remote-allow-origins=*");
-            options.addArguments("--disable-software-rasterizer");
-            options.addArguments("--disable-extensions");
             options.addArguments("--use-fake-ui-for-media-stream");
             options.addArguments("--deny-permission-prompts=false");
             options.setCapability("goog:loggingPrefs", Map.of("browser", "ALL"));
@@ -63,7 +66,9 @@ public class BaseTest {
                 throw new RuntimeException("Malformed URL for remote URL: " + remoteUrl, e);
             }
         } else {
+            // Локальный запуск (на вашей машине)
             driver = new ChromeDriver();
+            driver.manage().window().maximize();
         }
     }
 }
