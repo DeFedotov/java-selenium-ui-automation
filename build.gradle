@@ -17,7 +17,8 @@ dependencies {
     testImplementation 'org.seleniumhq.selenium:selenium-java:4.45.0'
     testImplementation 'org.aeonbits.owner:owner:1.0.4'
     testImplementation 'org.assertj:assertj-core:3.27.7'
-    implementation 'io.qameta.allure:allure-junit5:2.35.4'}
+    implementation 'io.qameta.allure:allure-junit5:2.35.4'
+}
 
 test {
     useJUnitPlatform()
