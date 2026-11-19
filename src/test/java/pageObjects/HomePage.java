@@ -7,9 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import static constants.Constants.BASE_URL;
 
 public class HomePage extends BasePage{
-    public static final String BASE_URL = "https://bonigarcia.dev/selenium-webdriver-java/";
 
     By chapterLocator = By.cssSelector("h5.card-title");
     By linkLocator = By.xpath("./../a");
